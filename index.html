@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noémie Prudence — Model</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;500&display=swap');
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #fff;
+      color: #1a1a1a;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 48px 40px 0;
+      text-align: center;
+    }
+
+    header h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 300;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #1a1a1a;
+    }
+
+    header .subtitle {
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #999;
+      margin-top: 8px;
+      font-weight: 400;
+    }
+
+    /* ── Layout ── */
+    .main {
+      display: flex;
+      gap: 0;
+      padding: 48px 40px 80px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 40px;
+      align-self: flex-start;
+      padding-right: 48px;
+    }
+
+    .sidebar h2 {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .stats {
+      list-style: none;
+    }
+
+    .stats li {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 0.8rem;
+    }
+
+    .stats li span:first-child {
+      color: #999;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.7rem;
+    }
+
+    .stats li span:last-child {
+      font-weight: 400;
+      color: #1a1a1a;
+    }
+
+    .sidebar .social {
+      margin-top: 32px;
+    }
+
+    .sidebar .social a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #1a1a1a;
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .sidebar .social a:hover {
+      color: #666;
+    }
+
+    .sidebar .social svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .sidebar .contact {
+      margin-top: 32px;
+      font-size: 0.7rem;
+      color: #bbb;
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+    }
+
+    .sidebar .contact a {
+      color: #999;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .sidebar .contact a:hover {
+      color: #1a1a1a;
+    }
+
+    /* ── Gallery Grid ── */
+    .gallery {
+      flex: 1;
+      columns: 3;
+      column-gap: 12px;
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.25, 0, 0.15, 1), filter 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.02);
+    }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.92);
+      justify-content: center;
+      align-items: center;
+      cursor: zoom-out;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .lightbox.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      background: none;
+      border: none;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-close:hover {
+      opacity: 1;
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+      background: none;
+      border: none;
+      padding: 20px;
+    }
+
+    .lightbox-nav:hover {
+      opacity: 1;
+    }
+
+    .lightbox-prev { left: 16px; }
+    .lightbox-next { right: 16px; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-size: 0.65rem;
+      color: #ccc;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      .gallery { columns: 2; }
+    }
+
+    @media (max-width: 768px) {
+      .main {
+        flex-direction: column;
+        padding: 32px 20px 60px;
+      }
+
+      header {
+        padding: 32px 20px 0;
+      }
+
+      .sidebar {
+        width: 100%;
+        position: static;
+        padding-right: 0;
+        padding-bottom: 36px;
+        border-bottom: 1px solid #f0f0f0;
+        margin-bottom: 32px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 32px;
+      }
+
+      .sidebar h2 {
+        grid-column: 1 / -1;
+      }
+
+      .sidebar .social {
+        grid-column: 1 / -1;
+        margin-top: 20px;
+      }
+
+      .sidebar .contact {
+        grid-column: 1 / -1;
+        margin-top: 16px;
+      }
+
+      .gallery {
+        columns: 2;
+        column-gap: 8px;
+      }
+
+      .gallery-item {
+        margin-bottom: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        letter-spacing: 0.1em;
+      }
+
+      .sidebar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── Fade-in animation ── */
+    .gallery-item {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .gallery-item:nth-child(1)  { animation-delay: 0.05s; }
+    .gallery-item:nth-child(2)  { animation-delay: 0.1s; }
+    .gallery-item:nth-child(3)  { animation-delay: 0.15s; }
+    .gallery-item:nth-child(4)  { animation-delay: 0.2s; }
+    .gallery-item:nth-child(5)  { animation-delay: 0.25s; }
+    .gallery-item:nth-child(6)  { animation-delay: 0.3s; }
+    .gallery-item:nth-child(7)  { animation-delay: 0.32s; }
+    .gallery-item:nth-child(8)  { animation-delay: 0.34s; }
+    .gallery-item:nth-child(9)  { animation-delay: 0.36s; }
+    .gallery-item:nth-child(10) { animation-delay: 0.38s; }
+    .gallery-item:nth-child(11) { animation-delay: 0.4s; }
+    .gallery-item:nth-child(12) { animation-delay: 0.42s; }
+    .gallery-item:nth-child(13) { animation-delay: 0.44s; }
+    .gallery-item:nth-child(14) { animation-delay: 0.46s; }
+    .gallery-item:nth-child(15) { animation-delay: 0.48s; }
+    .gallery-item:nth-child(16) { animation-delay: 0.5s; }
+    .gallery-item:nth-child(17) { animation-delay: 0.52s; }
+    .gallery-item:nth-child(18) { animation-delay: 0.54s; }
+    .gallery-item:nth-child(19) { animation-delay: 0.56s; }
+    .gallery-item:nth-child(20) { animation-delay: 0.58s; }
+    .gallery-item:nth-child(21) { animation-delay: 0.6s; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Noémie Prudence</h1>
+    <p class="subtitle">Model — Sydney</p>
+  </header>
+
+  <div class="main">
+    <aside class="sidebar">
+      <h2>Details</h2>
+      <ul class="stats">
+        <li><span>Height</span><span>173 cm</span></li>
+        <li><span>Bust</span><span>81 cm</span></li>
+        <li><span>Waist</span><span>63 cm</span></li>
+        <li><span>Hips</span><span>85 cm</span></li>
+        <li><span>Shoe</span><span>38 EU</span></li>
+        <li><span>Hair</span><span>Brown</span></li>
+        <li><span>Eyes</span><span>Light Brown</span></li>
+      </ul>
+
+      <div class="social">
+        <a href="https://www.instagram.com/noemie_pru/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="5"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+          @noemie_pru
+        </a>
+      </div>
+    </aside>
+
+    <div class="gallery">
+      <!-- Row 1: Strong openers — studio, editorial, beauty -->
+      <div class="gallery-item"><img src="images/20190505_Kult_Women_13_2333_Original.jpg" alt="Studio portrait" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/Noemie-Portfolio-Edits-26-15.jpg" alt="Beauty editorial" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/NEDYO_NOEMIE_TEST_209.jpg" alt="Coastal editorial" loading="lazy"></div>
+
+      <!-- Row 2: Variety — casual, landscape, close-up -->
+      <div class="gallery-item"><img src="images/Noemie-Test-Stills-2.jpg" alt="Casual full body" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/IMG_8816.jpg" alt="Editorial crop top" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/240927_Paloma_0517.jpg" alt="Close up beauty" loading="lazy"></div>
+
+      <!-- Row 3: Editorial & published work -->
+      <div class="gallery-item"><img src="images/editorial-magazine.jpg" alt="Magazine editorial" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/Other.jpg" alt="Full length dress" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/NEDYO_TEST_53.jpg" alt="Close up portrait" loading="lazy"></div>
+
+      <!-- Row 4: Mix -->
+      <div class="gallery-item"><img src="images/Vogue-2.jpg" alt="Vogue editorial" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/mindfood-cover.jpg" alt="MiNDFOOD cover" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/IMG_5780_Original.jpg" alt="Beach editorial" loading="lazy"></div>
+
+      <!-- Row 5 -->
+      <div class="gallery-item"><img src="images/240927_Paloma_0492.jpg" alt="Studio full body" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/IMG_8236.jpg" alt="Location bodysuit" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/Noemie-Test-Stills-18.jpg" alt="Test stills" loading="lazy"></div>
+
+      <!-- Row 6 -->
+      <div class="gallery-item"><img src="images/No%C3%A9mie-Portfolio-Edits-17.jpg" alt="Portfolio edit" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/NEDYO_NOEMIE_TEST_276.jpg" alt="Beach rocks" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/IMG_4487_Original.jpg" alt="Beach black and white" loading="lazy"></div>
+
+      <!-- Row 7 -->
+      <div class="gallery-item"><img src="images/No%C3%A9mie-Portfolio-Edits-20.jpg" alt="Portfolio" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/Noem_p.jpg" alt="Beach portrait" loading="lazy"></div>
+      <div class="gallery-item"><img src="images/IMG_8817-1.jpg" alt="Editorial portrait" loading="lazy"></div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; Noémie Prudence
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-nav lightbox-prev" aria-label="Previous">&lsaquo;</button>
+    <img src="" alt="">
+    <button class="lightbox-nav lightbox-next" aria-label="Next">&rsaquo;</button>
+  </div>
+
+  <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    const items = document.querySelectorAll('.gallery-item img');
+    let currentIndex = 0;
+
+    items.forEach((img, i) => {
+      img.addEventListener('click', () => {
+        currentIndex = i;
+        lightboxImg.src = img.src;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    lightbox.querySelector('.lightbox-prev').addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex - 1 + items.length) % items.length;
+      lightboxImg.src = items[currentIndex].src;
+    });
+
+    lightbox.querySelector('.lightbox-next').addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex + 1) % items.length;
+      lightboxImg.src = items[currentIndex].src;
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        lightboxImg.src = items[currentIndex].src;
+      }
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+        lightboxImg.src = items[currentIndex].src;
+      }
+    });
+  </script>
+
+</body>
+</html>

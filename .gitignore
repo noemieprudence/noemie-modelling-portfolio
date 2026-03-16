@@ -1,0 +1,12 @@
+.DS_Store
+.claude/
+Don't use/
+
+# Original high-res images (only optimized /images/ folder is tracked)
+*.jpg
+*.jpeg
+*.png
+!images/*.jpg
+
+# Normalized screenshot copies
+Screenshot*.png
