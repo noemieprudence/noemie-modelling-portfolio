@@ -7,6 +7,7 @@ Don't use/
 *.jpeg
 *.png
 !images/*.jpg
+!resized/*.jpg
 
 # Normalized screenshot copies
 Screenshot*.png
